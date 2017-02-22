@@ -35,10 +35,18 @@ app.get('/', function(request, response, next) {
   response.render('index');
 });
 
+// Check id validity
+function isIdValid(id) {
+    if (! _.isUndefined(id) && ! _.isFinite(id)) {
+      console.log('Id validation failed', id);
+      return false;
+    }
+    return true;
+}
+
 // Entity functions
 function isValid(entity, obj) {
-  if (! _.isUndefined(obj.id) && ! _.isFinite(obj.id)) {
-    console.log('Id validation failed', obj.id);
+  if (! isIdValid(obj.id)) {
     return false;
   }
 
@@ -118,6 +126,17 @@ listApiRouter.post('/:id', function(req, resp, next) {
     console.log('Update list', fields);
     resp.json(storage.upsert('list', fields));
   }
+});
+
+// DELETE /api/lists/:id Delete existing lists
+listApiRouter.delete('/:id', function(req, resp, next) {
+    var id = parseInt(req.params.id);
+    if (! isIdValid(id)) {
+        resp.status(400).end();
+    } else {
+        console.log('Delete list', id);
+        resp.json(storage.del('list', id));
+    }
 });
 
 // Start
