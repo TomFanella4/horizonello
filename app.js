@@ -110,6 +110,7 @@ listApiRouter.post('/', function(req, resp, next) {
 // POST /api/lists/:id Update existsing list
 listApiRouter.post('/:id', function(req, resp, next) {
   var fields = getFields(LIST_FIELDS, req.body);
+  fields.id = parseInt(req.params.id);
   fields.pos = parseInt(fields.pos);
   if (! isValid(LIST_FIELDS, fields)) {
     resp.status(400).end();
