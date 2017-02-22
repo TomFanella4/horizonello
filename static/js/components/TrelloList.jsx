@@ -1,5 +1,8 @@
 var React = require('react');
+
 import TrelloCard from './TrelloCard.jsx';
+import WebService from '../WebService.js';
+
 import Paper from 'material-ui/Paper';
 import FlatButton from 'material-ui/FlatButton';
 import TextField from 'material-ui/TextField';
@@ -8,7 +11,8 @@ var TrelloList = React.createClass({
     getInitialState: function () {
         return {
             name: this.props.name,
-            cards: this.props.cards
+            cards: this.props.cards,
+            newCard: ''
         };
     },
 
@@ -24,7 +28,37 @@ var TrelloList = React.createClass({
         });
     },
 
+    handleNewCardChange: function (e) {
+        this.setState({newCard: e.target.value});
+    },
+
+    updateList: function () {
+        var id = this.props.id;
+        var name = this.state.name;
+        var cards = this.state.cards;
+        var pos = this.props.pos;
+        var parentContext = this.props.parentContext;
+
+        WebService.updateList(id, name, pos, cards, parentContext);
+    },
+
     handleAddCard: function (e) {
+        if (e.target.value == '') {
+            return;
+        }
+        var cards = this.state.cards;
+
+        if (cards) {
+            this.setState({cards: cards.concat(e.target.value)});
+        } else {
+            this.setState({cards: [e.target.value]});
+        }
+
+        this.updateList();
+
+        this.setState({newCard: ''});
+    },
+
 
     },
 
@@ -56,7 +90,8 @@ var TrelloList = React.createClass({
                       hintText='Add a Card...'
                       multiLine={true}
                       rowsMax={4}
-                      onChange={this.addNewCard}
+                      onBlur={this.handleAddCard}
+                      onChange={this.handleNewCardChange}
                     />
                 </Paper>
             </Paper>

@@ -1,7 +1,5 @@
 var React = require('react');
 
-import WebService from '../WebService.js';
-
 var injectTapEventPlugin = require('react-tap-event-plugin');
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
@@ -9,6 +7,7 @@ import AppBar from 'material-ui/AppBar';
 
 import TrelloList from './TrelloList.jsx';
 import TrelloDialog from './TrelloDialog.jsx';
+import WebService from '../WebService.js';
 
 injectTapEventPlugin();
 
@@ -51,8 +50,17 @@ var TrelloBoard = React.createClass({
     render: function () {
         console.log(this.state.lists);
         var lists = this.state.lists.map( function(list) {
-          return <TrelloList key={list.id} name={list.name} cards={list.cards} />;
-        });
+          return (
+              <TrelloList
+                  key={list.id}
+                  id={list.id}
+                  name={list.name}
+                  pos={list.pos}
+                  cards={list.cards}
+                  parentContext={this}
+              />
+          );
+      }.bind(this));
 
         return (
             <MuiThemeProvider>
