@@ -4,7 +4,8 @@ import TrelloCard from './TrelloCard.jsx';
 import WebService from '../WebService.js';
 
 import Paper from 'material-ui/Paper';
-import FlatButton from 'material-ui/FlatButton';
+import IconButton from 'material-ui/IconButton';
+import ActionDelete from 'material-ui/svg-icons/action/delete';
 import TextField from 'material-ui/TextField';
 
 var TrelloList = React.createClass({
@@ -117,10 +118,9 @@ var TrelloList = React.createClass({
                   onChange={this.handleNameChange}
                   onBlur={this.handleListNameChange}
                 />
-                <FlatButton
-                  label='X'
-                  onTouchTap={this.handleDeleteList}
-                />
+                <IconButton onTouchTap={this.handleDeleteList} >
+                    <ActionDelete />
+                </IconButton>
                 <Paper className='card' zDepth={1} >
                     {cards}
                     <TextField

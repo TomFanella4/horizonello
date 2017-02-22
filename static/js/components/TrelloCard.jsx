@@ -1,5 +1,6 @@
 var React = require('react');
-import FlatButton from 'material-ui/FlatButton';
+import IconButton from 'material-ui/IconButton';
+import ActionClose from 'material-ui/svg-icons/navigation/close';
 import TextField from 'material-ui/TextField';
 
 var Card = React.createClass({
@@ -41,10 +42,9 @@ var Card = React.createClass({
                   onChange={this.handleChange}
                   onBlur={this.handleUpdateCard}
                 />
-                <FlatButton
-                  label='X'
-                  onTouchTap={this.handleDeleteCard}
-                />
+                <IconButton onTouchTap={this.handleDeleteCard} >
+                    <ActionClose />
+                </IconButton>
                 <br/>
             </div>
         );
