@@ -78,6 +78,7 @@ var TrelloList = React.createClass({
                   id={index}
                   card={card}
                   onCardChange={this.handleCardChange}
+                  onUpdateCard={this.updateList}
                   /> );
             }, this);
         }
