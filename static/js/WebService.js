@@ -52,7 +52,23 @@ var updateList = function (id, name, pos, cards, thisVar) {
     });
 }
 
+var deleteList = function (id, thisVar) {
+    $.ajax({
+        url: '/api/lists/' + id,
+        dataType: 'json',
+        type: 'DELETE',
+        cache: false,
+        success: function(data) {
+          this.loadListsFromServer();
+        }.bind(thisVar),
+        error: function(xhr, status, err) {
+          console.error('/api/lists', status, err.toString());
+        }.bind(thisVar)
+    });
+}
+
 module.exports = [];
 module.exports.loadAllLists = loadAllLists;
 module.exports.addNewList = addNewList;
 module.exports.updateList = updateList;
+module.exports.deleteList = deleteList;

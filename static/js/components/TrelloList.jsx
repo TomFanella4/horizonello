@@ -48,6 +48,13 @@ var TrelloList = React.createClass({
         }
     },
 
+    handleDeleteList: function (e) {
+        var id = this.props.id;
+        var parentContext = this.props.parentContext;
+
+        WebService.deleteList(id, parentContext);
+    },
+
     handleAddCard: function (e) {
         if (e.target.value == '') {
             return;
@@ -97,6 +104,10 @@ var TrelloList = React.createClass({
                   value={name}
                   onChange={this.handleNameChange}
                   onBlur={this.handleListNameChange}
+                />
+                <FlatButton
+                  label='X'
+                  onTouchTap={this.handleDeleteList}
                 />
                 <Paper className='card' zDepth={1} >
                     {cards}
