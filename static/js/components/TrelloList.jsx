@@ -12,11 +12,18 @@ var TrelloList = React.createClass({
         return {
             name: this.props.name,
             cards: this.props.cards,
-            newCard: ''
+            newCard: '',
+            nameErrorText: ''
         };
     },
 
     handleNameChange: function (e) {
+        var name = e.target.value;
+        if (name == '') {
+            this.setState({nameErrorText: 'A list must have a name'});
+        } else if (this.state.nameErrorText != '') {
+            this.setState({nameErrorText: ''});
+        }
         this.setState({name: e.target.value});
     },
 
@@ -34,7 +41,7 @@ var TrelloList = React.createClass({
 
     updateList: function () {
         var id = this.props.id;
-        var name = this.state.name;
+        var name = this.state.name != '' ? this.state.name : this.props.name;
         var cards = this.state.cards;
         var pos = this.props.pos;
         var parentContext = this.props.parentContext;
@@ -43,7 +50,8 @@ var TrelloList = React.createClass({
     },
 
     handleListNameChange: function (e) {
-        if (e.target.value != this.props.name) {
+        var name = this.state.name;
+        if (name != this.props.name && name != '') {
             this.updateList();
         }
     },
@@ -104,6 +112,8 @@ var TrelloList = React.createClass({
                 <TextField
                   id='temp'
                   value={name}
+                  hintText='List Name'
+                  errorText={this.state.nameErrorText}
                   onChange={this.handleNameChange}
                   onBlur={this.handleListNameChange}
                 />
