@@ -42,6 +42,12 @@ var TrelloList = React.createClass({
         WebService.updateList(id, name, pos, cards, parentContext);
     },
 
+    handleListNameChange: function (e) {
+        if (e.target.value != this.props.name) {
+            this.updateList();
+        }
+    },
+
     handleAddCard: function (e) {
         if (e.target.value == '') {
             return;
@@ -82,11 +88,13 @@ var TrelloList = React.createClass({
                   id='temp'
                   value={name}
                   onChange={this.handleNameChange}
+                  onBlur={this.handleListNameChange}
                 />
                 <Paper className='card' zDepth={1} >
                     {cards}
                     <TextField
                       id='New Card'
+                      value={this.state.newCard}
                       hintText='Add a Card...'
                       multiLine={true}
                       rowsMax={4}
