@@ -32,6 +32,27 @@ var addNewList = function (name, pos, thisVar) {
     });
 }
 
+var updateList = function (id, name, pos, cards, thisVar) {
+    $.ajax({
+        url: '/api/lists/' + id,
+        dataType: 'json',
+        type: 'POST',
+        data: {
+            name: name,
+            pos: pos,
+            cards: cards
+        },
+        cache: false,
+        success: function(data) {
+          this.loadListsFromServer();
+        }.bind(thisVar),
+        error: function(xhr, status, err) {
+          console.error('/api/lists', status, err.toString());
+        }.bind(thisVar)
+    });
+}
+
 module.exports = [];
 module.exports.loadAllLists = loadAllLists;
 module.exports.addNewList = addNewList;
+module.exports.updateList = updateList;
