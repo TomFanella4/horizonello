@@ -62,23 +62,25 @@ var TrelloList = React.createClass({
         var cards = this.state.cards;
 
         if (cards) {
-            this.setState({cards: cards.concat(e.target.value)});
+            this.setState({cards: cards.concat(e.target.value)}, function () {
+                this.updateList();
+                this.setState({newCard: ''});
+            });
         } else {
-            this.setState({cards: [e.target.value]});
+            this.setState({cards: [e.target.value]}, function () {
+                this.updateList();
+                this.setState({newCard: ''});
+            });
         }
-
-        this.updateList();
-
-        this.setState({newCard: ''});
     },
 
     handleDeleteCard: function (id) {
         var cards = this.state.cards.slice(0);
         cards.splice(id, 1);
 
-        this.setState({cards: cards});
-
-        this.updateList();
+        this.setState({cards: cards}, function () {
+            this.updateList();
+        });
     },
 
     render: function () {
