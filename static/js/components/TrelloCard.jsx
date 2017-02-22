@@ -23,6 +23,9 @@ var Card = React.createClass({
         }
     },
 
+    handleDeleteCard: function (e) {
+        var id = this.props.id;
+        this.props.onDeleteCard(id);
     },
 
     render: function() {
@@ -40,6 +43,7 @@ var Card = React.createClass({
                 />
                 <FlatButton
                   label='X'
+                  onTouchTap={this.handleDeleteCard}
                 />
                 <br/>
             </div>

@@ -65,7 +65,13 @@ var TrelloList = React.createClass({
         this.setState({newCard: ''});
     },
 
+    handleDeleteCard: function (id) {
+        var cards = this.state.cards.slice(0);
+        cards.splice(id, 1);
 
+        this.setState({cards: cards});
+
+        this.updateList();
     },
 
     render: function () {
@@ -79,6 +85,7 @@ var TrelloList = React.createClass({
                   card={card}
                   onCardChange={this.handleCardChange}
                   onUpdateCard={this.updateList}
+                  onDeleteCard={this.handleDeleteCard}
                   /> );
             }, this);
         }
