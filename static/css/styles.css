@@ -1,2 +1,27 @@
 /* Your CSS code here */
 /* This file is included on every page. */
+
+body {
+   margin: 0;
+   padding: 0;
+   background-color: #2F79BA;
+}
+
+.list {
+    padding: 10px;
+    margin: 10px;
+    display: inline-block;
+}
+
+.card {
+    padding: 10px;
+}
+
+.fab {
+    margin: 0px;
+    top: auto;
+    right: 20px;
+    bottom: 20px;
+    left: auto;
+    position: fixed;
+}
