@@ -1,4 +1,4 @@
-var React = require('react');
+import React from 'react';
 
 import TrelloCard from './TrelloCard.jsx';
 import WebService from '../WebService.js';
@@ -63,6 +63,8 @@ var TrelloList = React.createClass({
         var id = this.props.id;
         var parentContext = this.props.parentContext;
 
+        this.props.postSnack('List ' + this.state.name + ' was deleted');
+
         WebService.deleteList(id, parentContext);
     },
 
@@ -83,11 +85,15 @@ var TrelloList = React.createClass({
                 this.setState({newCard: ''});
             });
         }
+
+        this.props.postSnack('Card ' + e.target.value + ' was added');
     },
 
     handleDeleteCard: function (id) {
         var cards = this.state.cards.slice(0);
         cards.splice(id, 1);
+
+        this.props.postSnack('Card ' + this.state.cards[id] + ' was deleted');
 
         this.setState({cards: cards}, function () {
             this.updateList();
@@ -105,7 +111,7 @@ var TrelloList = React.createClass({
                     cards[index - 1] = temp;
                 } else {
                     // error
-
+                    this.props.postSnack('Card ' + cards[index] + ' is already at the top');
                 }
                 break;
             case 'down':
@@ -115,7 +121,7 @@ var TrelloList = React.createClass({
                     cards[index + 1] = temp;
                 } else {
                     // error
-
+                    this.props.postSnack('Card ' + cards[index] + ' is already at the bottom');
                 }
                 break;
             case 'right':

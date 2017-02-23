@@ -1,4 +1,4 @@
-var React = require('react');
+import React from 'react';
 import TextField from 'material-ui/TextField';
 import IconMenu from 'material-ui/IconMenu';
 import MenuItem from 'material-ui/MenuItem';

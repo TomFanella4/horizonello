@@ -1,9 +1,10 @@
-var React = require('react');
+import React from 'react';
 
-var injectTapEventPlugin = require('react-tap-event-plugin');
+import injectTapEventPlugin from 'react-tap-event-plugin';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
 import AppBar from 'material-ui/AppBar';
+import Snackbar from 'material-ui/Snackbar';
 
 import TrelloList from './TrelloList.jsx';
 import TrelloDialog from './TrelloDialog.jsx';
@@ -14,8 +15,24 @@ injectTapEventPlugin();
 var TrelloBoard = React.createClass({
     getInitialState: function () {
         return {
-            lists: []
+            lists: [],
+            snackOpen: false,
+            snackMessage: ''
         };
+    },
+
+    postSnack: function (message) {
+        this.setState({
+            snackMessage: message,
+            snackOpen: true
+        });
+    },
+
+    handleSnackRequestClose: function () {
+        this.setState({
+            snackMessage: '',
+            snackOpen: false
+        });
     },
 
     getNextPos: function () {
@@ -46,7 +63,15 @@ var TrelloBoard = React.createClass({
     moveList: function (direction, id) {
         var lists = this.state.lists;
         for (var i = 0; i < lists.length; i++) {
-            if (lists[i].id == id && i + direction >= 0 && i + direction < lists.length) {
+            if (lists[i].id == id) {
+                if (i + direction < 0 && direction == -1) {
+                    this.postSnack('List ' + lists[i].name + ' is already at the beginning');
+                    return;
+                }
+                if (i + direction >= lists.length && direction == 1) {
+                    this.postSnack('List ' + lists[i].name + ' is already at the end');
+                    return;
+                }
                 var list1 = lists[i];
                 var list2 = lists[i + direction];
 
@@ -105,6 +130,7 @@ var TrelloBoard = React.createClass({
                   parentContext={this}
                   moveList={this.moveList}
                   moveCard={this.moveCard}
+                  postSnack={this.postSnack}
               />
           );
       }.bind(this));
@@ -117,7 +143,16 @@ var TrelloBoard = React.createClass({
                         showMenuIconButton={false}
                     />
                     {lists}
-                    <TrelloDialog addNewList={this.addNewList}/>
+                    <TrelloDialog
+                        addNewList={this.addNewList}
+                        postSnack={this.postSnack}
+                    />
+                    <Snackbar
+                      open={this.state.snackOpen}
+                      message={this.state.snackMessage}
+                      autoHideDuration={4000}
+                      onRequestClose={this.handleSnackRequestClose}
+                    />
                 </div>
             </MuiThemeProvider>
         );

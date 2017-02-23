@@ -25,8 +25,8 @@ var TrelloDialog = React.createClass({
     handleSubmit: function () {
         this.setState({open: false});
 
-        console.log(this.state.listName);
         this.props.addNewList(this.state.listName);
+        this.props.postSnack('List ' + this.state.listName + ' was added');
 
         this.setState({listName: ''});
     },
