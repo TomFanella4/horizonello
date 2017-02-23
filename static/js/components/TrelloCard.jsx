@@ -35,11 +35,11 @@ var Card = React.createClass({
     },
 
     handleMoveRight: function (e) {
-        this.props.onMoveCard('right', this.props.id);
+        this.props.handleMoveCardRight(this.props.id);
     },
 
     handleMoveLeft: function (e) {
-        this.props.onMoveCard('left', this.props.id);
+        this.props.handleMoveCardLeft(this.props.id);
     },
 
     handleDeleteCard: function (e) {
@@ -63,6 +63,8 @@ var Card = React.createClass({
                 <IconMenu iconButtonElement={<IconButton><MoreVertIcon /></IconButton>} >
                   <MenuItem primaryText="Move Up" onTouchTap={this.handleMoveUp} />
                   <MenuItem primaryText="Move Down" onTouchTap={this.handleMoveDown} />
+                  <MenuItem primaryText="Move Right" onTouchTap={this.handleMoveRight} />
+                  <MenuItem primaryText="Move Left" onTouchTap={this.handleMoveLeft} />
                   <MenuItem primaryText="Delete" onTouchTap={this.handleDeleteCard} />
                 </IconMenu>
                 <br/>

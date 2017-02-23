@@ -54,9 +54,9 @@ var TrelloBoard = React.createClass({
         if (name != '') {
             var pos = this.getNextPos();
             WebService.addNewList(name, pos, this);
+            this.postSnack('List ' + name + ' was added');
         } else {
-            // Add Snackbar notification here
-            console.error('Invalid name');
+            this.postSnack('Invalid Name');
         }
     },
 
@@ -87,8 +87,6 @@ var TrelloBoard = React.createClass({
             if (lists[i].id == id && i + direction >= 0 && i + direction < lists.length) {
                 var list1 = lists[i];
                 var list2 = lists[i + direction];
-                console.log(list1);
-                console.log(list2);
                 var cards1 = list1.cards.slice(0);
                 var card = cards1[cardIndex];
                 cards1.splice(cardIndex, 1);
@@ -98,14 +96,10 @@ var TrelloBoard = React.createClass({
                     cards2 = list2.cards.slice(0);
                     cards2.push(card);
                 } else {
-                    console.log('add');
                     cards2 = [card];
                 }
 
-                console.log(card);
-
-                console.log(cards1);
-                console.log(cards2);
+                this.postSnack('The Card has been moved. Refresh page to view change.');
 
                 WebService.updateList(list1.id, list1.name, list1.pos, cards1, this);
                 WebService.updateList(list2.id, list2.name, list2.pos, cards2, this);
@@ -118,7 +112,6 @@ var TrelloBoard = React.createClass({
     },
 
     render: function () {
-        console.log(this.state.lists);
         var lists = this.state.lists.map( function(list) {
           return (
               <TrelloList

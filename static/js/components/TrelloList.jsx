@@ -137,6 +137,14 @@ var TrelloList = React.createClass({
         });
     },
 
+    handleMoveCardRight: function (index) {
+        this.props.moveCard(1, this.props.id, index);
+    },
+
+    handleMoveCardLeft: function (index) {
+        this.props.moveCard(-1, this.props.id, index);
+    },
+
     handleMoveRight: function (e) {
         this.props.moveList(1, this.props.id);
     },
@@ -158,6 +166,8 @@ var TrelloList = React.createClass({
                   onUpdateCard={this.updateList}
                   onDeleteCard={this.handleDeleteCard}
                   onMoveCard={this.handleMoveCard}
+                  handleMoveCardRight={this.handleMoveCardRight}
+                  handleMoveCardLeft={this.handleMoveCardLeft}
                   /> );
             }, this);
         }
