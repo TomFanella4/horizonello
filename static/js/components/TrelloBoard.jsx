@@ -43,6 +43,51 @@ var TrelloBoard = React.createClass({
         }
     },
 
+    moveList: function (direction, id) {
+        var lists = this.state.lists;
+        for (var i = 0; i < lists.length; i++) {
+            if (lists[i].id == id && i + direction >= 0 && i + direction < lists.length) {
+                var list1 = lists[i];
+                var list2 = lists[i + direction];
+
+                WebService.updateList(list1.id, list1.name, list2.pos, list1.cards, this);
+                WebService.updateList(list2.id, list2.name, list1.pos, list2.cards, this);
+            }
+        }
+    },
+
+    moveCard: function (direction, id, cardIndex) {
+        var lists = this.state.lists;
+        for (var i = 0; i < lists.length; i++) {
+            if (lists[i].id == id && i + direction >= 0 && i + direction < lists.length) {
+                var list1 = lists[i];
+                var list2 = lists[i + direction];
+                console.log(list1);
+                console.log(list2);
+                var cards1 = list1.cards.slice(0);
+                var card = cards1[cardIndex];
+                cards1.splice(cardIndex, 1);
+
+                var cards2;
+                if (list2.cards) {
+                    cards2 = list2.cards.slice(0);
+                    cards2.push(card);
+                } else {
+                    console.log('add');
+                    cards2 = [card];
+                }
+
+                console.log(card);
+
+                console.log(cards1);
+                console.log(cards2);
+
+                WebService.updateList(list1.id, list1.name, list1.pos, cards1, this);
+                WebService.updateList(list2.id, list2.name, list2.pos, cards2, this);
+            }
+        }
+    },
+
     componentDidMount: function () {
         this.loadListsFromServer();
     },
@@ -58,6 +103,8 @@ var TrelloBoard = React.createClass({
                   pos={list.pos}
                   cards={list.cards}
                   parentContext={this}
+                  moveList={this.moveList}
+                  moveCard={this.moveCard}
               />
           );
       }.bind(this));

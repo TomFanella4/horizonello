@@ -6,6 +6,8 @@ import WebService from '../WebService.js';
 import Paper from 'material-ui/Paper';
 import IconButton from 'material-ui/IconButton';
 import ActionDelete from 'material-ui/svg-icons/action/delete';
+import NavigationLeft from 'material-ui/svg-icons/navigation/chevron-left';
+import NavigationRight from 'material-ui/svg-icons/navigation/chevron-right';
 import TextField from 'material-ui/TextField';
 
 var TrelloList = React.createClass({
@@ -92,6 +94,51 @@ var TrelloList = React.createClass({
         });
     },
 
+    handleMoveCard: function (direction, index) {
+        var cards = this.state.cards.splice(0);
+
+        switch (direction) {
+            case 'up':
+                if (index > 0) {
+                    var temp = cards[index];
+                    cards[index] = cards[index - 1];
+                    cards[index - 1] = temp;
+                } else {
+                    // error
+
+                }
+                break;
+            case 'down':
+                if (index < cards.length - 1) {
+                    var temp = cards[index];
+                    cards[index] = cards[index + 1];
+                    cards[index + 1] = temp;
+                } else {
+                    // error
+
+                }
+                break;
+            case 'right':
+                //this.props.moveCard(1, this.props.id, index);
+                break;
+            case 'left':
+                //this.props.moveCard(-1, this.props.id, index);
+                break;
+        }
+
+        this.setState({cards: cards}, function () {
+            this.updateList();
+        });
+    },
+
+    handleMoveRight: function (e) {
+        this.props.moveList(1, this.props.id);
+    },
+
+    handleMoveLeft: function (e) {
+        this.props.moveList(-1, this.props.id);
+    },
+
     render: function () {
         var name = this.state.name;
         var cards = [];
@@ -104,6 +151,7 @@ var TrelloList = React.createClass({
                   onCardChange={this.handleCardChange}
                   onUpdateCard={this.updateList}
                   onDeleteCard={this.handleDeleteCard}
+                  onMoveCard={this.handleMoveCard}
                   /> );
             }, this);
         }
@@ -118,6 +166,13 @@ var TrelloList = React.createClass({
                   onChange={this.handleNameChange}
                   onBlur={this.handleListNameChange}
                 />
+                <br/>
+                <IconButton onTouchTap={this.handleMoveLeft} >
+                    <NavigationLeft />
+                </IconButton>
+                <IconButton onTouchTap={this.handleMoveRight} >
+                    <NavigationRight />
+                </IconButton>
                 <IconButton onTouchTap={this.handleDeleteList} >
                     <ActionDelete />
                 </IconButton>

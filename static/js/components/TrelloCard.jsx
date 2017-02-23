@@ -1,7 +1,9 @@
 var React = require('react');
-import IconButton from 'material-ui/IconButton';
-import ActionClose from 'material-ui/svg-icons/navigation/close';
 import TextField from 'material-ui/TextField';
+import IconMenu from 'material-ui/IconMenu';
+import MenuItem from 'material-ui/MenuItem';
+import IconButton from 'material-ui/IconButton';
+import MoreVertIcon from 'material-ui/svg-icons/navigation/more-vert';
 
 var Card = React.createClass({
     getInitialState: function () {
@@ -24,6 +26,22 @@ var Card = React.createClass({
         }
     },
 
+    handleMoveUp: function (e) {
+        this.props.onMoveCard('up', this.props.id);
+    },
+
+    handleMoveDown: function (e) {
+        this.props.onMoveCard('down', this.props.id);
+    },
+
+    handleMoveRight: function (e) {
+        this.props.onMoveCard('right', this.props.id);
+    },
+
+    handleMoveLeft: function (e) {
+        this.props.onMoveCard('left', this.props.id);
+    },
+
     handleDeleteCard: function (e) {
         var id = this.props.id;
         this.props.onDeleteCard(id);
@@ -42,9 +60,11 @@ var Card = React.createClass({
                   onChange={this.handleChange}
                   onBlur={this.handleUpdateCard}
                 />
-                <IconButton onTouchTap={this.handleDeleteCard} >
-                    <ActionClose />
-                </IconButton>
+                <IconMenu iconButtonElement={<IconButton><MoreVertIcon /></IconButton>} >
+                  <MenuItem primaryText="Move Up" onTouchTap={this.handleMoveUp} />
+                  <MenuItem primaryText="Move Down" onTouchTap={this.handleMoveDown} />
+                  <MenuItem primaryText="Delete" onTouchTap={this.handleDeleteCard} />
+                </IconMenu>
                 <br/>
             </div>
         );

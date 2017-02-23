@@ -5,7 +5,8 @@ var loadAllLists = function (thisVar) {
         dataType: 'json',
         cache: false,
         success: function(data) {
-          this.setState({lists: data.rows});
+          var lists = _.sortBy(data.rows, 'pos');
+          this.setState({lists: lists});
         }.bind(thisVar),
         error: function(xhr, status, err) {
           console.error('/api/lists', status, err.toString());
