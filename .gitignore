@@ -3,4 +3,3 @@ key
 node_modules/
 npm-debug.log
 .tmp
-bundle.js
