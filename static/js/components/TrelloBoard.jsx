@@ -132,7 +132,7 @@ var TrelloBoard = React.createClass({
             <MuiThemeProvider>
                 <div>
                     <AppBar
-                        title='Horizonello'
+                        title='Trello React'
                         showMenuIconButton={false}
                     />
                     {lists}

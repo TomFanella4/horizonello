@@ -1,10 +1,10 @@
 {
-  "name": "horizonello",
+  "name": "trello-react",
   "license": "MIT",
   "version": "0.0.1",
   "repository": {
     "type": "git",
-    "url": "git@github.com:horizons-school-of-technology/horizonello.git"
+    "url": "git@github.com:TomFanella4/trello-react.git"
   },
   "dependencies": {
     "body-parser": "1.15.0",
